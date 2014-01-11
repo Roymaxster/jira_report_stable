@@ -20,7 +20,8 @@ def files():
             i = i + 1
             add = (wd.find_element_by_xpath(
                 "/html/body/table[2]/tbody/tr[" + str(i) + "]/td[23]").text)
-            if add == '':
+            #условие пропуска пустых значений
+            if add == '':  
                 pass
             else:
                 ts_cache.append(int(add))
@@ -30,7 +31,6 @@ def files():
     def xls(title, summa, count):
         font0 = xlwt.Font()
         font0.name = 'Times New Roman'
-        #font0.colour_index = 2
         font0.bold = True
         font0.italic = True
 
@@ -38,6 +38,8 @@ def files():
         style0.font = font0
 
         style1 = xlwt.easyxf("", "0.00%")
+        
+        style2 = xlwt.easyxf("", "0.00")
 
         wb = xlwt.Workbook()
         ws = wb.add_sheet('Report')
@@ -58,15 +60,16 @@ def files():
             task = task.replace('for', '')
             task = task.replace('(Globo-Tech)', '')
             ws.write(0, i + 1, task, style0)
-            ws.write(1, i + 1, xlwt.Formula(str(str(summa[i]) + "/" + "3600")))
+            ws.write(1, i + 1, xlwt.Formula(str(str(summa[i]) + "/" + "3600")), style2)
             ws.write(2, i + 1, xlwt.Formula(
                 str(str((summa[i])) + "/" + str(sum(summa)))), style1)
 
         ws.write(0, count + 1, "Total", style0)
         ws.write(1, count + 1, xlwt.Formula(
-            str("SUM" + "(" + (table[2]) + "2" + ":" + str(table[count + 1] + "2" + ")")) + "/" + "3600"))
+            str("SUM" + "(" + (table[2]) + "2" + ":" + str(table[count + 1] + "2" + ")"))))
         ws.write(2, count + 1, xlwt.Formula(
             str("SUM" + "(" + (table[2]) + "3" + ":" + str(table[count + 1] + "3" + ")"))), style1)
+        
         wb.save('jira.xls')
 
     directory = os.getcwd()

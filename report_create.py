@@ -50,8 +50,8 @@ def files():
                  17: "Q", 18: "R", 19: "S", 20: "T", 21: "U",
                     22: "V", 23: "W", 24: "X", 25: "Y", 26: "Z",
                      27: "AA", 28: "AB", 29: "AC", 30: "AD"}
-        ws.write(1, 0, "Total time", style0)
-        ws.write(2, 0, "Percent", style0)
+        ws.write(0, 1, "Time (hours)", style0)
+        ws.write(0, 2, "Percent", style0)
         while i < (count - 1):
             i += 1
             ws.col(i).width = 230 * 20
@@ -59,17 +59,18 @@ def files():
             task = task.replace('GameDevServer', '')
             task = task.replace('for', '')
             task = task.replace('(Globo-Tech)', '')
-            ws.write(0, i + 1, task, style0)
-            ws.write(1, i + 1, xlwt.Formula(str(str(summa[i]) + "/" + "3600")), style2)
-            ws.write(2, i + 1, xlwt.Formula(
+            ws.write(i+1, 0, task, style0)
+            ws.write(i+1, 1, xlwt.Formula(str(str(summa[i]) + "/" + "3600")), style2)
+            ws.write(i+1, 2, xlwt.Formula(
                 str(str((summa[i])) + "/" + str(sum(summa)))), style1)
 
-        ws.write(0, count + 1, "Total", style0)
-        ws.write(1, count + 1, xlwt.Formula(
-            str("SUM" + "(" + (table[2]) + "2" + ":" + str(table[count + 1] + "2" + ")"))))
-        ws.write(2, count + 1, xlwt.Formula(
-            str("SUM" + "(" + (table[2]) + "3" + ":" + str(table[count + 1] + "3" + ")"))), style1)
-        
+        ws.write(count+1, 0 , "Total", style0)
+        ws.write(count+1, 1 , xlwt.Formula(
+            str("SUM" + "(" + (table[2]) + "2" + ":" + str(table[2] + str(count + 1)) + ")")), style2)
+        ws.write(count+1, 2 , xlwt.Formula(
+            str("SUM" + "(" + (table[3]) + "2" + ":" + str(table[3] + str(count + 1)) + ")")), style1)
+
+        ws.col(0).width = 10000
         wb.save('jira.xls')
 
     directory = os.getcwd()
